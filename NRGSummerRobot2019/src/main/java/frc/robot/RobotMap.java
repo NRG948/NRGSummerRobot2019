@@ -16,9 +16,16 @@ import edu.wpi.first.wpilibj.Spark;
  * floating around.
  */
 public class RobotMap {
-  public static Spark frontLeftSpark = new Spark (0);
-  public static Spark frontRightSpark = new Spark (1);
-  public static Spark rearLeftSpark = new Spark (2);
-  public static Spark rearRightSpark = new Spark (3);
-public static Object backLeft;
+
+  public static Spark frontLeftSpark;
+  public static Spark frontRightSpark;
+  public static Spark rearLeftSpark;
+  public static Spark rearRightSpark;
+
+  public static void init() {
+    frontLeftSpark = new Spark(0);
+    frontRightSpark = new Spark(1);
+    rearLeftSpark = new Spark(2);
+    rearRightSpark = new Spark(3);
+  }
 }
