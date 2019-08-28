@@ -7,7 +7,7 @@
 
 package frc.robot;
 
-import com.revrobotics.*;
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -16,15 +16,17 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
  * floating around.
  */
 public class RobotMap {
-  public static CANSparkMax frontLeftSpark = new CANSparkMax(2, MotorType.kBrushless);
-  public static CANSparkMax frontRightSpark  = new CANSparkMax(3, MotorType.kBrushless);
-  public static CANSparkMax rearLeftSpark  = new CANSparkMax(4, MotorType.kBrushless);
-  public static CANSparkMax rearRightSpark  = new CANSparkMax(5, MotorType.kBrushless);
+  public static CANSparkMax frontLeftSpark;
+  public static CANSparkMax frontRightSpark;
+  public static CANSparkMax rearLeftSpark;
+  public static CANSparkMax rearRightSpark;
 
   public static void init() {
-  // frontLeftSpark = new CANSparkMax(2, MotorType.kBrushless);
-  // frontRightSpark  = new CANSparkMax(3, MotorType.kBrushless);
-  // rearLeftSpark  = new CANSparkMax(4, MotorType.kBrushless);
-  // rearRightSpark  = new CANSparkMax(5, MotorType.kBrushless);
+  frontLeftSpark = new CANSparkMax(2, MotorType.kBrushless);
+  frontRightSpark  = new CANSparkMax(3, MotorType.kBrushless);
+  rearLeftSpark  = new CANSparkMax(4, MotorType.kBrushless);
+  rearRightSpark  = new CANSparkMax(5, MotorType.kBrushless);
+
+  frontLeftSpark.restoreFactoryDefaults();
   }
 }
