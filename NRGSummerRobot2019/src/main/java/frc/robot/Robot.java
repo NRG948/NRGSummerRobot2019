@@ -22,7 +22,7 @@ import frc.robot.subsystems.Drive;
  * project.
  */
 public class Robot extends TimedRobot {
-  public static Drive drive = new Drive();
+  public static Drive drive;
   public static OI m_oi;
 
   Command m_autonomousCommand;
@@ -35,7 +35,8 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_oi = new OI();
-    RobotMap.init();
+    // RobotMap.init();
+    drive = new Drive();
   }
 
   /**
