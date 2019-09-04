@@ -27,6 +27,6 @@ public class RobotMap {
   rearLeftSpark  = new CANSparkMax(4, MotorType.kBrushless);
   rearRightSpark  = new CANSparkMax(5, MotorType.kBrushless);
 
-  frontLeftSpark.restoreFactoryDefaults();
+  System.out.println("FrontLeftSpark: " + frontLeftSpark.getDeviceId() + "; firmware = " + frontLeftSpark.getFirmwareString());
   }
 }
