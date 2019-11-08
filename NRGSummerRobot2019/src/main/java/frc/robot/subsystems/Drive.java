@@ -30,25 +30,10 @@ public class Drive extends Subsystem {
       static double[] prevGet = new double[4];
 
       public void tankDrive(double leftPower, double rightPower) {
-        // RobotMap.frontLeftSpark.set(leftPower);
-        // RobotMap.rearLeftSpark.set(leftPower);
+        RobotMap.frontLeftSpark.set(leftPower);
+        RobotMap.rearLeftSpark.set(leftPower);
         RobotMap.frontRightSpark.set(rightPower);
         RobotMap.rearRightSpark.set(rightPower);
-
-        TraceGetChange(0, RobotMap.frontLeftSpark);
-        TraceGetChange(1, RobotMap.rearLeftSpark);
-        TraceGetChange(2, RobotMap.frontRightSpark);
-        TraceGetChange(3, RobotMap.rearRightSpark);
-      }
-
-      public static void TraceGetChange(int index, CANSparkMax can)
-      {
-        double get = can.get();
-        if (get != prevGet[index])
-        {
-          System.out.println("CAN #" + index + " = " + get);
-          prevGet[index] = get;
-        }
       }
 
       public void stop() {
