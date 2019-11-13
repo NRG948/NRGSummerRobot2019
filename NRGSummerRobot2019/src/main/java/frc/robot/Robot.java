@@ -24,6 +24,8 @@ import frc.robot.subsystems.Drive;
 public class Robot extends TimedRobot {
   public static Drive drive;
   public static OI m_oi;
+  public static PositionTracker positionTracker = new PositionTracker();
+
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -98,6 +100,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    positionTracker.updatePosition();
+
     Scheduler.getInstance().run();
   }
 
@@ -117,7 +121,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    positionTracker.updatePosition();
     Scheduler.getInstance().run();
+    
   }
 
   /**
@@ -125,5 +131,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+    positionTracker.updatePosition();
   }
 }

@@ -42,5 +42,8 @@ public class Drive extends Subsystem {
         RobotMap.frontRightSpark.disable();
         RobotMap.rearRightSpark.disable();
       }
+      public void turnToHeading(double heading){
+        
+      }
   }
   
