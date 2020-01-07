@@ -7,16 +7,27 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class ExampleSubsystem extends SubsystemBase {
-  /**
-   * Creates a new ExampleSubsystem.
-   */
-  public ExampleSubsystem() {
+public class Drive extends SubsystemBase {
 
+  CANSparkMax frontLeft = new CANSparkMax(4, MotorType.kBrushless);
+  CANSparkMax frontRight = new CANSparkMax(3, MotorType.kBrushless);
+  CANSparkMax backLeft = new CANSparkMax(5, MotorType.kBrushless);
+  CANSparkMax backRight = new CANSparkMax(2, MotorType.kBrushless);
+
+
+  public Drive() {
+    }
+  public void tankDrive(double leftPower, double rightPower){
+    frontLeft.set(leftPower);
+    frontRight.set(rightPower);
+    backLeft.set(leftPower);
+    backRight.set(rightPower);
   }
-
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
