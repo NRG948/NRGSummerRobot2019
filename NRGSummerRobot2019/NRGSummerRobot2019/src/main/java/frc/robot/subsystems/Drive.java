@@ -14,10 +14,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Drive extends SubsystemBase {
 
-  CANSparkMax frontLeft = new CANSparkMax(4, MotorType.kBrushless);
-  CANSparkMax frontRight = new CANSparkMax(3, MotorType.kBrushless);
-  CANSparkMax backLeft = new CANSparkMax(5, MotorType.kBrushless);
-  CANSparkMax backRight = new CANSparkMax(2, MotorType.kBrushless);
+  CANSparkMax frontRight = new CANSparkMax(4, MotorType.kBrushless);
+  CANSparkMax backRight = new CANSparkMax(5, MotorType.kBrushless);
+  CANSparkMax frontLeft = new CANSparkMax(2, MotorType.kBrushless);
+  CANSparkMax backLeft = new CANSparkMax(3, MotorType.kBrushless);
 
 
   public Drive() {
@@ -27,6 +27,8 @@ public class Drive extends SubsystemBase {
     frontRight.set(rightPower);
     backLeft.set(leftPower);
     backRight.set(rightPower);
+    frontRight.setInverted(true);
+    backRight.setInverted(true);
   }
   @Override
   public void periodic() {

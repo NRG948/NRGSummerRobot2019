@@ -27,7 +27,7 @@ public class ManualDrive extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ManualDrive(Drive subsystem, Joystick rightJoystick, Joystick leftJoystick) {
+  public ManualDrive(Drive subsystem, Joystick leftJoystick, Joystick rightJoystick) {
     drive = subsystem;
     this.rightJoystick = rightJoystick;
     this.leftJoystick = leftJoystick;
@@ -44,7 +44,7 @@ public class ManualDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drive.tankDrive(leftJoystick.getY(), rightJoystick.getY());
+    drive.tankDrive(-leftJoystick.getY(), -rightJoystick.getY());
   }
 
   // Called once the command ends or is interrupted.
