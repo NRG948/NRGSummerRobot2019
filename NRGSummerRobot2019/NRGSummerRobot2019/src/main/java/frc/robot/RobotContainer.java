@@ -22,18 +22,17 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final Drive drive = new Drive();
+  private final Drive m_drive = new Drive();
 
-  private final ManualDrive manualDrive = new ManualDrive(drive);
+  private Joystick m_leftJoystick = new Joystick(0);
+  private Joystick m_rightJoystick = new Joystick(1);
 
-  Joystick leftJoystick = new Joystick(0);
-  Joystick rightJoystick = new Joystick(1);
-
+  private final ManualDrive m_manualDrive = new ManualDrive(m_drive, m_leftJoystick, m_rightJoystick);
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-
+    m_drive.setDefaultCommand(m_manualDrive);
 
     // Configure the button bindings
     configureButtonBindings();
@@ -56,6 +55,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return manualDrive;
+    return m_manualDrive;
   }
 }

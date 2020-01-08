@@ -7,23 +7,31 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.Drive;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 
+import frc.robot.subsystems.Drive;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 /**
  * An example command that uses an example subsystem.
  */
 public class ManualDrive extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+
+
   private final Drive drive;
+  private final Joystick rightJoystick;
+  private final Joystick leftJoystick;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ManualDrive(Drive subsystem) {
+  public ManualDrive(Drive subsystem, Joystick rightJoystick, Joystick leftJoystick) {
     drive = subsystem;
+    this.rightJoystick = rightJoystick;
+    this.leftJoystick = leftJoystick;
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
@@ -36,7 +44,7 @@ public class ManualDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drive.tankDrive(leftPower, rightPower);
+    drive.tankDrive(leftJoystick.getY(), rightJoystick.getY());
   }
 
   // Called once the command ends or is interrupted.
