@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import java.util.ArrayList;
+import frc.robot.utilities.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -30,6 +30,7 @@ public class Robot extends TimedRobot {
   private static final double visionAngle = 0; //limelight mounting angle
   private static final double h2 = 83.75; //height of high target
   private static final double h1 = 38; //mounting height
+  private static Average distanceTshortAverage;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -40,6 +41,7 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+   distanceTshortAverage = new Average(5);
   }
 
   /**
@@ -92,8 +94,6 @@ public class Robot extends TimedRobot {
       NetworkTableEntry tshort = table.getEntry("tshort");
       NetworkTableEntry tlong = table.getEntry("tlong");
       //read values periodically
-      int count = 0;
-      ArrayList<Double> a = new ArrayList<>();
       boolean averageDistancebool = false;
       double x = tx.getDouble(0.0);
       double y = ty.getDouble(0.0);
@@ -101,25 +101,13 @@ public class Robot extends TimedRobot {
       double skew = ts.getDouble(0.0);
       double z = tshort.getDouble(0.0);
       double tLong = tlong.getDouble(0.0);
-      double distanceUsingTshort = (4822/z)-5.0664;
+      double distanceUsingTshort = (4822/z)-5.0664; distanceTshortAverage.add(distanceUsingTshort);
+      double averageTshort = distanceTshortAverage.averaged();
       double distanceTLong = (-0.024+Math.sqrt(-0.0148*tLong+1.2543432))/0.0074;
       double AngledDistance = Math.sqrt(Math.pow(distanceUsingTshort,2)+Math.pow(distanceTLong,2));
       double distance = (h2-h1)/Math.tan(Math.toRadians(visionAngle + y));
       double average = (distanceUsingTshort+ distance)/2;
       double distanceMax = 0;
-      count++;
-      if(count<6){
-        a.add(distanceUsingTshort);
-      }else if(count >= 6){
-        averageDistancebool = true;
-        double max = a.get(0);
-        for(int i=0; i < a.size();i++){
-          if(max<a.get(i)){
-            max = a.get(i);
-          }
-        }
-        distanceMax = max;
-      }
       //post to smart dashboard periodically
       SmartDashboard.putNumber("LimelightX", x);
       SmartDashboard.putNumber("LimelightY", y);
@@ -131,9 +119,7 @@ public class Robot extends TimedRobot {
       SmartDashboard.putNumber("LimeLightDistance", distance);
       SmartDashboard.putNumber("Tlong", distanceTLong);
       SmartDashboard.putNumber("AngledDistance", AngledDistance);
-      if(averageDistancebool){
-        SmartDashboard.putNumber("DistanceMax", distanceMax);
-      }
+      SmartDashboard.putNumber("AverageDistanceUsingTshort", averageTshort);
   }
 
   /**
