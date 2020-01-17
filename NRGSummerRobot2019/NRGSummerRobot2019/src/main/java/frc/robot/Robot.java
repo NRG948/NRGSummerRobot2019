@@ -96,50 +96,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-NetworkTableEntry tx = table.getEntry("tx");
-NetworkTableEntry ty = table.getEntry("ty");
-NetworkTableEntry ta = table.getEntry("ta");
-NetworkTableEntry ts = table.getEntry("ts");
-NetworkTableEntry tshort = table.getEntry("tshort");
-//read values periodically
-int count = 0;
-ArrayList<Double> a = new ArrayList<>();
-boolean averageDistancebool = false;
-double x = tx.getDouble(0.0);
-double y = ty.getDouble(0.0);
-double area = ta.getDouble(0.0);
-double skew = ts.getDouble(0.0);
-double z = tshort.getDouble(0.0);
-double distanceUsingTshort = (4822/z)-5.0664;
-double distance = (h2-h1)/Math.tan(Math.toRadians(visionAngle + y));
-double average = (distanceUsingTshort+ distance)/2;
-double distanceMax = 0;
-count++;
-if(count<6){
-  a.add(distanceUsingTshort);
-}else if(count >= 6){
-  averageDistancebool = true;
-  double max = a.get(0);
-  for(int i=0; i < a.size();i++){
-    if(max<a.get(i)){
-      max = a.get(i);
-    }
-  }
-  distanceMax = max;
-}
-//post to smart dashboard periodically
-SmartDashboard.putNumber("LimelightX", x);
-SmartDashboard.putNumber("LimelightY", y);
-SmartDashboard.putNumber("LimelightArea", area);
-SmartDashboard.putNumber("LimeLIghtSkew", skew);
-SmartDashboard.putNumber("Tshort", z);
-SmartDashboard.putNumber("DistanceUsingTshort" , distanceUsingTshort);
-SmartDashboard.putNumber("AverageDistance", average);
-SmartDashboard.putNumber("LimeLightDistance", distance);
-if(averageDistancebool){
-  SmartDashboard.putNumber("DistanceMax", distanceMax);
-}
   }
 
   @Override

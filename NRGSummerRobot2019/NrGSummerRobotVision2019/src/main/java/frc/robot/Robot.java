@@ -28,8 +28,9 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   private static final double visionAngle = 0; //limelight mounting angle
-  private static final double h2 = 29.75; //height of high target
-  private static final double h1 = 6; //mounting height
+  private static final double h2 = 83.75; //height of high target
+  private static final double h1 = 38; //mounting height
+
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -76,66 +77,63 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    switch (m_autoSelected) {
-      case kCustomAuto:
-        // Put custom auto code here
-        break;
-      case kDefaultAuto:
-      default:
-        // Put default auto code here
-        break;
     }
-  }
 
   /**
    * This function is called periodically during operator control.
    */
   @Override
   public void teleopPeriodic() {
-    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-NetworkTableEntry tx = table.getEntry("tx");
-NetworkTableEntry ty = table.getEntry("ty");
-NetworkTableEntry ta = table.getEntry("ta");
-NetworkTableEntry ts = table.getEntry("ts");
-NetworkTableEntry tshort = table.getEntry("tshort");
-//read values periodically
-int count = 0;
-ArrayList<Double> a = new ArrayList<>();
-boolean averageDistancebool = false;
-double x = tx.getDouble(0.0);
-double y = ty.getDouble(0.0);
-double area = ta.getDouble(0.0);
-double skew = ts.getDouble(0.0);
-double z = tshort.getDouble(0.0);
-double distanceUsingTshort = (4822/z)-5.0664;
-double distance = (h2-h1)/Math.tan(Math.toRadians(visionAngle + y));
-double average = (distanceUsingTshort+ distance)/2;
-double distanceMax = 0;
-count++;
-if(count<6){
-  a.add(distanceUsingTshort);
-}else if(count >= 6){
-  averageDistancebool = true;
-  double max = a.get(0);
-  for(int i=0; i < a.size();i++){
-    if(max<a.get(i)){
-      max = a.get(i);
-    }
-  }
-  distanceMax = max;
-}
-//post to smart dashboard periodically
-SmartDashboard.putNumber("LimelightX", x);
-SmartDashboard.putNumber("LimelightY", y);
-SmartDashboard.putNumber("LimelightArea", area);
-SmartDashboard.putNumber("LimeLIghtSkew", skew);
-SmartDashboard.putNumber("Tshort", z);
-SmartDashboard.putNumber("DistanceUsingTshort" , distanceUsingTshort);
-SmartDashboard.putNumber("AverageDistance", average);
-SmartDashboard.putNumber("LimeLightDistance", distance);
-if(averageDistancebool){
-  SmartDashboard.putNumber("DistanceMax", distanceMax);
-}
+          NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+      NetworkTableEntry tx = table.getEntry("tx");
+      NetworkTableEntry ty = table.getEntry("ty");
+      NetworkTableEntry ta = table.getEntry("ta");
+      NetworkTableEntry ts = table.getEntry("ts");
+      NetworkTableEntry tshort = table.getEntry("tshort");
+      NetworkTableEntry tlong = table.getEntry("tlong");
+      //read values periodically
+      int count = 0;
+      ArrayList<Double> a = new ArrayList<>();
+      boolean averageDistancebool = false;
+      double x = tx.getDouble(0.0);
+      double y = ty.getDouble(0.0);
+      double area = ta.getDouble(0.0);
+      double skew = ts.getDouble(0.0);
+      double z = tshort.getDouble(0.0);
+      double tLong = tlong.getDouble(0.0);
+      double distanceUsingTshort = (4822/z)-5.0664;
+      double distanceTLong = (-0.024+Math.sqrt(-0.0148*tLong+1.2543432))/0.0074;
+      double AngledDistance = Math.sqrt(Math.pow(distanceUsingTshort,2)+Math.pow(distanceTLong,2));
+      double distance = (h2-h1)/Math.tan(Math.toRadians(visionAngle + y));
+      double average = (distanceUsingTshort+ distance)/2;
+      double distanceMax = 0;
+      count++;
+      if(count<6){
+        a.add(distanceUsingTshort);
+      }else if(count >= 6){
+        averageDistancebool = true;
+        double max = a.get(0);
+        for(int i=0; i < a.size();i++){
+          if(max<a.get(i)){
+            max = a.get(i);
+          }
+        }
+        distanceMax = max;
+      }
+      //post to smart dashboard periodically
+      SmartDashboard.putNumber("LimelightX", x);
+      SmartDashboard.putNumber("LimelightY", y);
+      SmartDashboard.putNumber("LimelightArea", area);
+      SmartDashboard.putNumber("LimeLIghtSkew", skew);
+      SmartDashboard.putNumber("Tshort", z);
+      SmartDashboard.putNumber("DistanceUsingTshort" , distanceUsingTshort);
+      SmartDashboard.putNumber("AverageDistance", average);
+      SmartDashboard.putNumber("LimeLightDistance", distance);
+      SmartDashboard.putNumber("Tlong", distanceTLong);
+      SmartDashboard.putNumber("AngledDistance", AngledDistance);
+      if(averageDistancebool){
+        SmartDashboard.putNumber("DistanceMax", distanceMax);
+      }
   }
 
   /**
